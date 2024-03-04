@@ -15,16 +15,14 @@ try{
 string file = Path.GetFileName(sourceFile);
 string replicaFile = Path.Combine(replicaPath, file);
 File.Copy(sourceFile, replicaFile, true);
-Log($"Copy {file} from {sourcePath} to {replicaPath}");
+
     }
 }catch {
-Console.WriteLine($"Error occurred during synchronization");
+Console.WriteLine($"Error  synchronization");
 }
     }
     
-public void Log(string message){
 
-}
 
 
     }

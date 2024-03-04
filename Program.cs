@@ -4,19 +4,34 @@
     {
         static void Main(string[] args)
         {
-            if (args.Length != 4)
+            if (args.Length != 3)
             {
-                Console.WriteLine("Usage: SyncFolders.exe <source folder> <replica folder> <interval in seconds> ");
                 return;
             }
                 string sourcePath = args[0];
             string replicaPath = args[1];
-            int synchronizationIntervalInSeconds = int.Parse(args[2]);
-       var folderSync = new Sync(sourcePath, replicaPath);
-            var scheduler = new Timer(folderSync, synchronizationIntervalInSeconds); 
-       Console.WriteLine($"Starting synchronization from {sourcePath} to {replicaPath} every {synchronizationIntervalInSeconds} seconds.");
+            int synInSeconds = int.Parse(args[2]);
+           
+           if (!Directory.Exists(sourcePath))
+{
+    Console.WriteLine($"{sourcePath} does not exist.");
+    return;
+}
+           
+             if (!Directory.Exists(replicaPath))
+    {
+        Console.WriteLine($"{replicaPath} does not exist.");
+        return;
+    }
+            string sourceFile = Path.Combine(sourcePath, "example.txt");
+            Console.WriteLine(sourceFile);
+
+       File.WriteAllText(sourceFile, "This is an example file");
+       var sync = new Sync(sourcePath, replicaPath);
+            var schedule = new Timer(sync, synInSeconds); 
+       Console.WriteLine($"synchronization from {sourcePath} to {replicaPath} every {synInSeconds} seconds.");
          
-            scheduler.Start();
+            schedule.Start();
         }
     }
 }
